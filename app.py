@@ -28,4 +28,4 @@ def start_server(port):
     http_server = HTTPServer(('', int(port)), TestHTTPHandler)  
     http_server.serve_forever() #设置一直监听并接收请求  
   
-start_server(8000)  #启动服务，监听8000端口  
+start_server(8080)  #启动服务，监听8080端口  
