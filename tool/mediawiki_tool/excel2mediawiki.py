@@ -3,11 +3,13 @@
 from openpyxl import load_workbook
 import sys
 import os
+import logging
+import argparse
 
 """convert excel to mediawiki table format"""
 
-def show_err(s):
-    sys.stderr.write("error: %s\n" % s)
+logger = logging.getLogger('excel2mediawiki')
+
 
 class Cell(object):
     """one cell of table"""
@@ -26,19 +28,23 @@ class Cell(object):
         # escape special mark
         result = ''
         if self.content is not None:
-            result = "".join(self.escape_table.get(c, c) for c in self.content)
+            result = "".join(self.escape_table.get(c, c) for c in str(self.content))
             result = result.replace("\n", "<br>")
+            # if col content is '', cell show width and height will be small
+            if result.strip() == '':
+                result = "<br>"
 
         # add rowspan and colspan
         row_col_span_str = ''
-        if  self.rowspan > 1 or self.colspan > 1:
-            row_span_str = ''
-            col_span_str = ''
+        if self.rowspan > 1 or self.colspan > 1:
             if self.rowspan > 1:
-                row_span_str = "rowspan=\"%d\"" % self.rowspan
+                row_col_span_str = "rowspan=\"%d\"" % self.rowspan
             if self.colspan > 1:
-                col_span_str = "colspan=\"%d\"" % self.colspan
-            row_col_span_str = "%s %s|" % (row_span_str, col_span_str)
+                if row_col_span_str == '':
+                    row_col_span_str = "colspan=\"%d\"" % self.colspan
+                else:
+                    row_col_span_str += " colspan=\"%d\"" % self.colspan
+            row_col_span_str = "%s|" % row_col_span_str
 
         result = "%s%s" % (row_col_span_str, result)
         return result
@@ -61,128 +67,131 @@ class Table(object):
         self.col_start_str = "|"
         self.col_split_str = "||"
 
-    def get_cell_row_and_col_span(self, table, row_index, col_index):
-        """
-        find row_span and col_span by table of two dimentional array
-        param: row_index, row index of table
-               col_index, col index of table
-        return: (row_span<int>, (col_span)<int>)
-        """
-        table_rows = len(table)
-        table_cols = 0 if table_rows == 0 else len(table[0])
-        row_span = 1
-        col_span = 1
-        assert(row_index >= 0 and row_index < table_rows)
-        assert(col_index >= 0 and col_index < table_cols)
-        if table[row_index][col_index] is None:
-            return 1, 1
-
-        for r in range(row_index + 1, table_rows):
-            if table[r][col_index] is None:
-                row_span += 1
-            else:
-                break
-
-        for c in range(col_index, table_cols):
-            if table[row_index][c] is None:
-                col_span += 1
-            else:
-                break
-
-        return row_span, col_span
-
-    def trans_table_to_cell_table(self, table):
-        """
-        trans table to cell table
-        param: table is two dimentional array
-               [
-                   [str, str, None, ...],
-                   [...]
-               ]
-        return: two dimentional array, element
-                is class cell 
-        """
-        result = []
-        table_rows = len(table)
-        table_cols = 0 if table_rows == 0 else len(table[0])
-        for row_index in range(0, table_rows):
-            row_cells = []
-            for col_index in range(0, table_cols):
-                if table[row_index][col_index] is None:
-                    row_cells.append(None)
-                else:
-                    # check is this cell combined
-                    row_span, col_span = self.get_cell_row_and_col_span(
-                        table, row_index, col_index)
-                    row_cells.append(Cell(
-                        content=str(table[row_index][col_index]),
-                        rowspan=row_span,
-                        colspan=col_span
-                    ))
-            result.append(row_cells)
-
-        return result
-
     def get_tables_from_excel(self, excel_file_path, sheet_names=None):
         result_tables = {}
-        wb = load_workbook(filename=excel_file_path, read_only=True)
+        wb = load_workbook(filename=excel_file_path)
         all_sheet_names = wb.get_sheet_names()
         result_tables_name = []
         if sheet_names is not None:
             for s in sheet_names:
                 if s not in all_sheet_names:
-                    show_err("not find sheet in file, sheet name is %s, file is %s"
-                    % (s, excel_file_path))
+                    logger.error(
+                        "not find sheet in file, sheet name is %s, \
+file is %s" % (s, excel_file_path))
                 else:
                     result_tables_name.append(s)
         else:
             result_tables_name = all_sheet_names
-        
+
         for s in result_tables_name:
             ws = wb[s]
+            # get merged cell info
+            all_merged_cell = ws.merged_cell_ranges
+            merged_cell_map = {}
+            for m in all_merged_cell:
+                merged_cell_map["%d-%d" % (m.min_row - 1, m.min_col - 1)] = (m.size["rows"], m.size["columns"])
             table = []
             for r in ws.rows:
-                table.append([c.value for c in r])
-                result_tables[s] = table
+                table.append([c for c in r])
+            # trans table to cell table
+            cell_table = []
+            for row_index in range(0, len(table)):
+                rows = []
+                for col_index in range(0, len(table[row_index])):
+                    row_span, col_span = merged_cell_map.get("%d-%d" % (row_index, col_index), (1, 1))
+                    if row_span > 1 or col_span > 1:
+                        # this cell is in merged cell start positon<left top>
+                        rows.append(Cell(table[row_index][col_index].value, row_span, col_span))
+                    else:
+                        # check is this cell in merged range
+                        is_in_merged_range = False
+                        for pos, r_c_range in merged_cell_map.items():
+                            r, c = pos.split('-')
+                            r = int(r)
+                            c = int(c)
+                            rows_length, cols_length = r_c_range
+                            if row_index in range(r, r + rows_length) and \
+                                col_index in range(c, c + cols_length):
+                                is_in_merged_range = True
+                                break
+                        
+                            logger.debug("check %d %d, range start pos %d %d,\
+r_l, c_l: %d %d, is in: %s" % (row_index, col_index, r, c, rows_length, cols_length, is_in_merged_range))
+                        if table[row_index][col_index].value is None:
+                            if is_in_merged_range is True:
+                                rows.append(None)
+                            else:
+                                rows.append(Cell('', row_span, col_span))
+                        else:
+                            rows.append(Cell(table[row_index][col_index].value,
+                            row_span, col_span))
+                cell_table.append(rows)
+
+            result_tables[s] = cell_table
 
         return result_tables
-    
+
     def write_cell_table_to_mediatext(self, cell_table, txt_file_name):
         with open(txt_file_name, 'w') as f:
             f.write("%s\n" % self.table_start_str)
-            is_row_start=True
+            is_row_start = True
             for row in cell_table:
-                if is_row_start == False:
+                if is_row_start is False:
                     f.write("%s\n" % self.row_split_str)
                 else:
                     is_row_start = False
                 f.write(self.col_start_str)
-                is_col_start=True
+                is_col_start = True
                 for col in row:
                     if col is not None:
-                        if  is_col_start == True:
-                            f.write(col.get_cell_wiki_content())
-                            is_col_start=False
+                        if  is_col_start is True:
+                            col_content = col.get_cell_wiki_content()
+                            f.write(col_content)
+                            is_col_start = False
                         else:
                             f.write("%s%s" % (
                                 self.col_split_str,
                                 col.get_cell_wiki_content()))
                 f.write("\n")
 
-            print('write done')
             f.write("%s\n" % self.table_end_str)
 
 
-if __name__ == '__main__':
+def main(args):
+    if not os.path.exists(args.outdir):
+        os.mkdir(args.outdir)
+
     table = Table()
-    excel_file_path='t.xlsx'
-    tables = table.get_tables_from_excel(excel_file_path)
-    print(tables)
-    for tablename, t in tables.items():
-        cell_table = table.trans_table_to_cell_table(t)
-        print(cell_table)
+    excel_file_path = args.excelfile
+    if not os.path.exists(excel_file_path):
+        logger.error("file not find, file path is %s" % excel_file_path)
+        sys.exit(1)
+
+    sheet_names = None
+    if args.sheet is not None:
+        sheet_names = [s.strip() for s in args.sheet.split(',')]
+    tables = table.get_tables_from_excel(excel_file_path,
+        sheet_names=sheet_names)
+    logger.debug(str(tables))
+    for tablename, cell_table in tables.items():
+        logger.debug(str(cell_table))
         table.write_cell_table_to_mediatext(
-            cell_table, "%s_%s.txt" % (
-                excel_file_path.replace('.xlsx',''), '_'.join(tablename.split())
+            cell_table,
+            os.path.join(args.outdir, "%s_%s.txt" % (
+                excel_file_path.replace('.xlsx', ''), '_'.join(tablename.split()))
             )
         )
+
+if __name__ == '__main__':
+    parse = argparse.ArgumentParser(description="convert excel content to mediawiki table content")
+    parse.add_argument('excelfile', help="excel file path")
+    parse.add_argument('-s', '--sheet', help="sheet names split by comma, sheet to use, if not set this, all sheet use")
+    parse.add_argument('-d', '--outdir', help="convert file in this dir", default="out")
+    parse.add_argument("--debug", action="store_true", help="debug mode")
+    args = parse.parse_args()
+    log_level = logging.INFO
+    if args.debug is True:
+        log_level = logging.DEBUG
+
+    logging.basicConfig(level=log_level)
+    main(args)
