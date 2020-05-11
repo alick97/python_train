@@ -1,0 +1,93 @@
+74.6.23.209 - - [11/May/2020:10:58:05 -0600] "GET /Perl98/swigperl.htm HTTP/1.1" 404 133
+194.97.106.98 - - [11/May/2020:10:58:06 -0600] "GET /Python2001/python.html HTTP/1.1" 404 133
+75.24.211.116 - - [11/May/2020:10:58:06 -0600] "GET /03ProgramStructure.pdf HTTP/1.1" 200 279926
+201.213.27.208 - - [11/May/2020:10:58:07 -0600] "GET /papers/python.html HTTP/1.1" 404 133
+66.87.72.51 - - [11/May/2020:10:58:07 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE066.HTM HTTP/1.0" 200 1538
+64.81.229.55 - - [11/May/2020:10:58:07 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE046.HTM HTTP/1.0" 200 1738
+75.157.220.80 - - [11/May/2020:10:58:08 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE012.HTM HTTP/1.0" 200 1466
+65.55.104.13 - - [11/May/2020:10:58:09 -0600] "GET /dynamic/08GeneratorNetwork.pdf HTTP/1.1" 200 145188
+24.37.1.68 - - [11/May/2020:10:58:09 -0600] "GET /dynamic/assign5.html HTTP/1.1" 200 10928
+74.6.31.151 - - [11/May/2020:10:58:10 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE100.HTM HTTP/1.0" 200 1562
+198.54.202.194 - - [11/May/2020:10:58:10 -0600] "GET /dynamic/index.html HTTP/1.1" 304 -
+132.206.52.168 - - [11/May/2020:10:58:11 -0600] "GET /index.html HTTP/1.0" 304 -
+71.133.9.141 - - [11/May/2020:10:58:11 -0600] "GET /ply/bookplug.gif HTTP/1.1" 200 20114
+83.206.220.147 - - [11/May/2020:10:58:12 -0600] "GET /ply/ply-1.1.tar.gz HTTP/1.1" 200 62496
+128.135.194.70 - - [11/May/2020:10:58:13 -0600] "GET /cgi-bin/wiki.pl?SwigFaq HTTP/1.0" 200 3580
+76.223.31.57 - - [11/May/2020:10:58:13 -0600] "GET /photos/wind/pages/IMG_1253.htm HTTP/1.1" 404 133
+81.255.174.7 - - [11/May/2020:10:58:13 -0600] "GET /photos/u505/pages/IMG_1514.htm HTTP/1.0" 404 133
+41.196.193.85 - - [11/May/2020:10:58:13 -0600] "GET /images/davechina.jpg HTTP/1.1" 200 445667
+79.77.245.147 - - [11/May/2020:10:58:13 -0600] "GET /cgi-bin/wiki.pl?PrettyXmlSwig HTTP/1.1" 200 1495
+130.208.225.81 - - [11/May/2020:10:58:14 -0600] "GET /ply/example.html HTTP/1.1" 200 2359
+91.121.92.62 - - [11/May/2020:10:58:14 -0600] "POST /cgi-bin/wiki.pl HTTP/1.0" 200 996
+80.58.205.41 - - [11/May/2020:10:58:14 -0600] "POST /cgi-bin/wiki.pl HTTP/1.0" 200 1002
+74.6.23.210 - - [11/May/2020:10:58:15 -0600] "GET /papers/Tcl98/ HTTP/1.1" 403 223
+84.20.132.177 - - [11/May/2020:10:58:15 -0600] "GET /dynamic/03ProgramStructure.pdf HTTP/1.0" 200 288790
+190.18.132.71 - - [11/May/2020:10:58:16 -0600] "GET /cgi-bin/wiki.pl?action=browse&diff=1&id=swigfaq/sharedlibraries HTTP/1.1" 200 1528
+68.60.229.125 - - [11/May/2020:10:58:16 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE042.HTM HTTP/1.1" 304 -
+60.249.147.81 - - [11/May/2020:10:58:17 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE057.HTM HTTP/1.0" 200 1847
+210.9.32.205 - - [11/May/2020:10:58:17 -0600] "GET /dynamic/portfolio.txt HTTP/1.1" 200 100
+74.6.19.154 - - [11/May/2020:10:58:17 -0600] "GET /ply/ply-2.3.tar.gz HTTP/1.1" 304 -
+74.6.28.76 - - [11/May/2020:10:58:18 -0600] "GET /ply/bookplug.gif HTTP/1.1" 200 12382
+67.151.52.19 - - [11/May/2020:10:58:19 -0600] "GET /cgi-bin/wiki.pl?action=change1&id=ImportDirective HTTP/1.1" 200 2740
+198.54.202.234 - - [11/May/2020:10:58:20 -0600] "GET /ply/PLYTalk.pdf HTTP/1.1" 200 24524
+199.111.200.69 - - [11/May/2020:10:58:20 -0600] "GET /python/tutorial/beazley_intro_python/Slides/SLIDE007.HTM HTTP/1.0" 200 1299
+74.6.19.207 - - [11/May/2020:10:58:20 -0600] "GET /papers/Py96/ HTTP/1.1" 403 222
+198.54.202.194 - - [11/May/2020:10:58:21 -0600] "GET /dynamic/07Functional.pdf HTTP/1.0" 206 133088
+194.209.8.145 - - [11/May/2020:10:58:21 -0600] "GET /papers/Tcl96/tcl96.html HTTP/1.1" 200 39617
+57.66.144.181 - - [11/May/2020:10:58:22 -0600] "GET /ply/ply-2.1.tar.gz HTTP/1.0" 200 107720
+84.110.129.69 - - [11/May/2020:10:58:23 -0600] "GET /python/tutorial/beazley_intro_python/Slides/SLIDE010.HTM HTTP/1.0" 200 1331
+190.24.202.82 - - [11/May/2020:10:58:24 -0600] "GET /papers/Py96 HTTP/1.1" 301 250
+74.6.25.70 - - [11/May/2020:10:58:24 -0600] "GET /gifplot/view3d_2.gif HTTP/1.1" 200 888
+82.154.251.108 - - [11/May/2020:10:58:24 -0600] "POST /cgi-bin/wiki.pl HTTP/1.1" 200 1161
+74.6.23.41 - - [11/May/2020:10:58:24 -0600] "GET /ply/README HTTP/1.0" 304 -
+80.229.70.194 - - [11/May/2020:10:58:25 -0600] "GET /python/tutorial/ HTTP/1.0" 403 214
+24.207.163.47 - - [11/May/2020:10:58:26 -0600] "GET /dynamic/dowportfolio2.rec HTTP/1.1" 200 399
+68.216.13.202 - - [11/May/2020:10:58:27 -0600] "HEAD /ply/example.html HTTP/1.0" 304 -
+61.135.190.17 - - [11/May/2020:10:58:28 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE082.HTM HTTP/1.0" 200 983
+210.75.252.165 - - [11/May/2020:10:58:28 -0600] "GET /dynamic/ HTTP/1.0" 200 5105
+64.236.139.6 - - [11/May/2020:10:58:29 -0600] "GET /python/tutorial/beazley_intro_python/Slides/SLIDE011.HTM HTTP/1.0" 200 1231
+130.86.204.99 - - [11/May/2020:10:58:30 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE008.HTM HTTP/1.1" 200 1231
+67.195.58.164 - - [11/May/2020:10:58:31 -0600] "GET /training.html HTTP/1.1" 304 -
+128.135.230.179 - - [11/May/2020:10:58:31 -0600] "GET /python/consulting.html HTTP/1.0" 404 133
+83.24.38.176 - - [11/May/2020:10:58:31 -0600] "GET /swill/Doc/ HTTP/1.0" 304 -
+74.6.20.216 - - [11/May/2020:10:58:32 -0600] "POST /cgi-bin/wiki.pl HTTP/1.1" 200 997
+88.215.172.82 - - [11/May/2020:10:58:32 -0600] "GET /consulting.html HTTP/1.1" 304 -
+83.53.254.51 - - [11/May/2020:10:58:33 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE056.HTM HTTP/1.0" 200 1504
+67.123.80.214 - - [11/May/2020:10:59:55 -0600] "GET /ply/PLYTalk.pdf HTTP/1.1" 206 145565
+160.45.115.176 - - [11/May/2020:10:59:55 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE040.HTM HTTP/1.0" 200 1910
+71.201.41.248 - - [11/May/2020:10:59:56 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE033.HTM HTTP/1.0" 200 1804
+128.135.197.57 - - [11/May/2020:10:59:56 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE012.HTM HTTP/1.0" 200 1466
+80.227.1.101 - - [11/May/2020:10:59:57 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE021.HTM HTTP/1.0" 200 1207
+74.6.20.147 - - [11/May/2020:10:59:59 -0600] "POST /cgi-bin/wiki.pl HTTP/1.0" 200 1283
+61.135.219.5 - - [11/May/2020:10:59:59 -0600] "GET /images/NerdRanchEurope.jpg HTTP/1.0" 200 99542
+72.244.56.83 - - [11/May/2020:11:00:00 -0600] "GET /dynamic/07Functional.pdf HTTP/1.0" 206 133088
+74.6.28.76 - - [11/May/2020:11:00:00 -0600] "GET /Perl98/swigperl.htm HTTP/1.1" 404 133
+200.55.140.181 - - [11/May/2020:11:00:01 -0600] "GET /python/tutorial/beazley_intro_python/Slides/SLIDE084.HTM HTTP/1.0" 200 1474
+138.100.217.162 - - [11/May/2020:11:00:02 -0600] "POST /cgi-bin/wiki.pl HTTP/1.0" 200 993
+87.74.95.23 - - [11/May/2020:11:00:03 -0600] "GET /python/tutorial/beazley_advanced_python/Slides/SLIDE063.HTM HTTP/1.0" 200 1511
+200.19.92.58 - - [11/May/2020:11:00:03 -0600] "GET /gifplot/plot3d_3.gif HTTP/1.1" 200 55793
+80.121.95.184 - - [11/May/2020:11:00:04 -0600] "GET /papers/Python2001/ HTTP/1.1" 403 228
+python1
+python2
+pythonc
+pythoc
+pythoc
+pytho1
+pytho1 pytho2 pytho3
+pytho1 pytho2 pytho3
+python1 python2 python3
+python1 python2 python3
+python
+pythona
+swig
+swiag
+swiag
+swiag
+swiag
+swiag
+swiag
+swiag
+swiag
+swiag
+swiag
+swiag
