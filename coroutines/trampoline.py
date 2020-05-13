@@ -14,7 +14,7 @@ def main():
 
 def run():
     m      = main()       
-    # An example of a "trampoline"
+    # An example of a "trampoline", this is a truly stack call.
     sub    = m.send(None)            
     result = sub.send(None)
     r = m.send(result)
