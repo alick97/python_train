@@ -1,5 +1,6 @@
 from lex import Lexer, TokenType, Token
 import unittest
+import coverage
 
 
 class TokenTestCase(unittest.TestCase):
@@ -36,6 +37,27 @@ class TokenTestCase(unittest.TestCase):
         ]
         self.assertTokenlistEqual(self.get_token_list(input), token_list)
 
+    def test_string_illegal_character(self):
+        input = '"123'
+        with self.assertRaises(SystemExit):
+            self.get_token_list(input)
+
+    def test_keyword_operator_identifer(self):
+        input = 'IF+-123 foo*THEN/'
+        token_list = [
+            Token('IF', TokenType.IF),
+            Token('+', TokenType.PLUS),
+            Token('-', TokenType.MINUS),
+            Token('123', TokenType.NUMBER),
+            Token('foo', TokenType.IDENT),
+            Token('*', TokenType.ASTERISK),
+            Token('THEN', TokenType.THEN),
+            Token('/', TokenType.SLASH),
+            Token('\n', TokenType.NEWLINE),
+            Token('', TokenType.EOF)
+        ]
+        self.assertTokenlistEqual(self.get_token_list(input), token_list)
+
 
 def suite():
     suite = unittest.TestSuite()
@@ -44,5 +66,14 @@ def suite():
 
 
 if __name__ == '__main__':
+    cov = coverage.Coverage(branch=True, source=['lex'])
+    cov.start()
+
     runner = unittest.TextTestRunner()
     runner.run(suite())
+
+    cov.stop()
+    cov.save()
+
+    cov.report(show_missing=True)
+    cov.html_report()
