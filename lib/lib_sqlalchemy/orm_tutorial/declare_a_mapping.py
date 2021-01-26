@@ -1,5 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Sequence
+from sqlalchemy.orm import relationship
 
 from .connection import engine
 
@@ -14,6 +15,11 @@ class User(Base):
     name = Column(String(20))
     fullname = Column(String(40))
     nickname = Column(String(40))
+
+    # # Note: without back_populates, just User can use addresses attribute,
+    # # on the opposite Address can't use user attribute.
+    # addresses = relationship("Address")
+    addresses = relationship("Address", back_populates="user")
 
     def __repr__(self):
         return f'''<User(id='{self.id}', 'name='{self.name}', fullname='{self.fullname}', \

@@ -181,12 +181,42 @@ def qs_by_text():
     #     value=244, name='fred'
     # ).order_by(User.id)
     # print(query.first())
-    query = session.query(User).from_statement(
-        text('select * from users where name=:name')
-    ).params(
+    # query = session.query(User).from_statement(
+    #     text('select * from users where name=:name')
+    # ).params(
+    #     name='ed'
+    # )
+    # print(query.all())
+
+    # # Map column position to model.
+    # stmt = text("SELECT name, id, fullname, nickname FROM users where name=:name")
+    # stmt = stmt.columns(User.name, User.id, User.fullname, User.nickname)
+    # users = session.query(User).from_statement(stmt).params(name='ed').all()
+    # print(users)
+
+    # Explict column.
+    stmt = text("SELECT name, id FROM users where name=:name")
+    stmt = stmt.columns(User.name, User.id)  # Note: will map stmt name -> User.name, id -> User.id.
+    # stmt = stmt.columns(User.id, User.name)  # Note: will map stmt name -> User.id,  id -> User.name.
+    user_info_list = session.query(User.id, User.name).from_statement(stmt).params(
         name='ed'
-    )
-    print(query.all())
+    ).all()
+    for row in user_info_list:
+        print(row)
+
+
+def qs_counting():
+    from sqlalchemy import func
+    # count = session.query(User).filter(User.name.like('%ed')).count()
+    # print(count)
+
+    count = session.query(func.count('*')).select_from(User).scalar()
+    print(count)
+    count = session.query(func.count('1')).select_from(User).scalar()
+    print(count)
+
+    # user_count_list = session.query(func.count(User.name), User.name).group_by(User.name).all()
+    # print(user_count_list)
 
 
 def main():
@@ -199,7 +229,8 @@ def main():
     # qs_limit_offset()
     # qs_filter()
     # qs_list_scalar()
-    qs_by_text()
+    # qs_by_text()
+    qs_counting()
 
 
 if __name__ == '__main__':
