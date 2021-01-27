@@ -106,19 +106,114 @@ def query_with_alias():
 
 def query_with_subquery():
     # # Subquery: it’s actually shorthand for query.statement.alias().
-    stmt = session.query(
-        Address.user_id, func.count('*').label('address_count')).group_by(
-        Address.user_id
-    ).subquery()
+    # stmt = session.query(
+    #     Address.user_id, func.count('*').label('address_count')).group_by(
+    #     Address.user_id
+    # ).subquery()
 
-    # print(stmt)
+    # # print(stmt)
 
-    # Subquery like a table alias.
-    for u, count in session.query(
-        User, stmt.c.address_count).outerjoin(
-            stmt, User.id == stmt.c.user_id
-            ).order_by(User.id):
-        print(u, count)
+    # # Subquery like a table alias.
+    # for u, count in session.query(
+    #     User, stmt.c.address_count).outerjoin(
+    #         stmt, User.id == stmt.c.user_id
+    #         ).order_by(User.id):
+    #     print(u, count)
+
+    # Selecting Entities from Subqueries.
+    from sqlalchemy.orm import aliased
+    stmt = session.query(Address).filter(
+        Address.email_address != 'j25@yahoo.com').subquery()
+    address_alias = aliased(Address, stmt)
+    for user, address in session.query(User, address_alias).join(
+        address_alias, User.addresses
+    ):
+        print(user)
+        print(address)
+
+
+def use_exists():
+    # from sqlalchemy.sql import exists
+    # stmt = exists().where(Address.user_id == User.id)
+    # for name, in session.query(User.name).filter(stmt):
+    #     print(name)
+
+    # # Shortcut for exists.
+    # for name, in session.query(User.name).filter(
+    #         User.addresses.any()):
+    #     print(name)
+
+    # # Method any() for many to one.
+    # stmt = User.addresses.any(Address.email_address.like('%google%'))
+    # for name, in session.query(User.name).filter(stmt):
+    #     print(name)
+
+    # # Method has() for one to many. ~ operator mean 'NOT'.
+    address_list = session.query(Address).filter(
+        ~Address.user.has(User.name == 'jack')
+    ).all()
+    print(address_list)
+
+
+def common_relationship_operator():
+    # user = session.query(User)[:1][0]
+    # query = session.query(Address)
+    # address_list = query.filter(Address.user == user).all()
+    # address_list = query.filter(Address.user != user).all()
+    # address_list = query.filter(Address.user.__eq__(None)).all()
+    # print(address_list)
+
+    # address = session.query(Address)[:1][0]
+    # address_list = session.query(User).filter(
+    #     User.addresses.contains(address),
+    #     ).all()
+    # print(address_list)
+
+    query = session.query(User)
+    user_list = query.filter(User.addresses.any(Address.email_address == 'bar')).all()
+    # # also takes keyword arguments:
+    # user_list = query.filter(User.addresses.any(email_address='bar')).all()
+    print(user_list)
+
+    # address_list = session.query(Address).filter(Address.user.has(name='ed')).all()
+    # print(address_list)
+
+    # user = session.query(User)[:1][0]
+    # address_list = session.query(Address).with_parent(user, 'addresses').all()
+    # print(address_list)
+
+
+def eager_loading():
+    # # Selectin load.
+    # # selectinload() tends to be more appropriate for loading related collections.
+    # # User.addresses should load eagerly.
+    # from sqlalchemy.orm import selectinload
+    # jack = session.query(User).options(
+    #     selectinload(User.addresses)
+    # ).filter_by(name='jack')[0:1][0]
+    # print(jack)
+    # print(jack.addresses)
+
+    # # Join load.
+    # # joinedload() tends to be better suited for many-to-one relationships.
+    # from sqlalchemy.orm import joinedload
+    # jack = session.query(User).options(
+    #     joinedload(User.addresses)
+    # ).filter_by(name='jack')[:1][0]
+    # print(jack)
+    # print(jack.addresses)
+
+    # Explicit Join + Eagerload.
+    from sqlalchemy.orm import contains_eager
+    jacks_address = session.query(Address).join(
+        Address.user
+    ).filter(
+        User.name == 'jack'
+    ).options(
+        contains_eager(Address.user)
+    ).all()
+    print(jacks_address)
+    print(jacks_address[0].user)
 
 
 def main():
@@ -126,7 +221,10 @@ def main():
     # work_with_related_objects()
     # query_with_joins()
     # query_with_alias()
-    query_with_subquery()
+    # query_with_subquery()
+    # use_exists()
+    # common_relationship_operator()
+    eager_loading()
 
 
 if __name__ == '__main__':
