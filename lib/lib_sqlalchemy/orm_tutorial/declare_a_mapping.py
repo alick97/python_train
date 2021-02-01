@@ -19,7 +19,8 @@ class User(Base):
     # # Note: without back_populates, just User can use addresses attribute,
     # # on the opposite Address can't use user attribute.
     # addresses = relationship("Address")
-    addresses = relationship("Address", back_populates="user")
+    # addresses = relationship("Address", back_populates="user")
+    addresses = relationship("Address", back_populates='user', cascade="all, delete, delete-orphan")
 
     def __repr__(self):
         return f'''<User(id='{self.id}', 'name='{self.name}', fullname='{self.fullname}', \
