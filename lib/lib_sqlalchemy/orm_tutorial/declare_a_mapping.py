@@ -20,7 +20,8 @@ class User(Base):
     # # on the opposite Address can't use user attribute.
     # addresses = relationship("Address")
     # addresses = relationship("Address", back_populates="user")
-    addresses = relationship("Address", back_populates='user', cascade="all, delete, delete-orphan")
+    addresses = relationship('Address', back_populates='user', cascade='all, delete, delete-orphan')
+    posts = relationship('BlogPost', back_populates='author', lazy='dynamic')
 
     def __repr__(self):
         return f'''<User(id='{self.id}', 'name='{self.name}', fullname='{self.fullname}', \
