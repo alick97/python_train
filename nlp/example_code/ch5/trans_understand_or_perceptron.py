@@ -24,6 +24,11 @@ for iteration_num in range(5):
         input_vector = np.array(sample)
         weights = np.array(weights)
         activation_level = np.dot(input_vector, weights) + (bias_weight * 1)
+        # func is: x * w1 + y * w2 + 1 * bias_weight == activation_level
+        # activation threshold is 0.5, w1 =1, w2=1 func is y = -x + 0.5 + 0*1, split data to two area
+        # if activation threshold is set to 10, w1 = 4, w2=4, bias_weight = 7, func is 4y + 4x + 7 * 1 = 10
+        # if this to match xor, no func to split data. this just resolve data can split by linear function scene.
+
         if activation_level > activation_threshold:
             perceptron_output = 1
         else:
